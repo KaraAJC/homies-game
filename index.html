@@ -497,7 +497,7 @@
             giveHint() {
                 const availableSets = this.findAvailableSets();
                 if (availableSets.length > 0) {
-                    const hintSet = availableSets;
+                    const hintSet = availableSets[0];
                     hintSet.forEach(card => {
                         const cardElement = document.querySelector(`[data-id="${card.id}"]`);
                         cardElement.style.border = '3px solid #fbbf24';
@@ -517,7 +517,7 @@
             autoFindSet() {
                 const availableSets = this.findAvailableSets();
                 if (availableSets.length > 0) {
-                    const foundSet = availableSets;
+                    const foundSet = availableSets[0];
                     foundSet.forEach(card => {
                         this.selectCard(card.id);
                     });
