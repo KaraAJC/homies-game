@@ -49,38 +49,75 @@
                 opacity: 1;
             }
         }
+        
+        /* Accessibility improvements */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        .card:focus-visible {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: #6366f1;
+            background-color: #f8fafc;
+        }
+        
+        button:focus-visible {
+            outline: 3px solid #3b82f6;
+            outline-offset: 2px;
+        }
+        
+        .modal:focus-visible {
+            outline: none;
+        }
+        
+        input:focus-visible {
+            outline: 3px solid #3b82f6;
+            outline-offset: 2px;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-purple-100 to-pink-100 min-h-screen p-4">
-    <div class="max-w-6xl mx-auto">
+    <header class="bg-white rounded-2xl shadow-2xl p-6 mb-6">
+        <h1 class="text-4xl font-bold text-center text-gray-800 mb-2">HOMIES</h1>
+        <p class="text-center text-gray-600 text-lg mb-2">Find your homies! Inspired by the game SET</p>
+        <p class="text-center text-gray-600 mb-6">Find sets of 3 people where each attribute is all the same OR all different!</p>
+    </header>
+
+    <main class="max-w-6xl mx-auto">
         <div class="bg-white rounded-2xl shadow-2xl p-6">
-            <h1 class="text-4xl font-bold text-center text-gray-800 mb-2">HOMIES</h1>
-            <p class="text-center text-gray-600 text-lg mb-2">Find your homies! Inspired by the game SET</p>
-            <p class="text-center text-gray-600 mb-6">Find sets of 3 people where each attribute is all the same OR all different!</p>
-            
             <div class="flex justify-between items-start mb-6">
-                <div class="flex-1">
-                    <div class="text-center text-xl font-semibold text-gray-700 mb-2" id="status">Select 3 cards to form a set</div>
+                <section class="flex-1" aria-labelledby="game-status-heading">
+                    <h2 id="game-status-heading" class="sr-only">Game Status</h2>
+                    <div class="text-center text-xl font-semibold text-gray-700 mb-2" id="status" role="status" aria-live="polite">Select 3 cards to form a set</div>
                     <div class="flex justify-center space-x-6 text-sm text-gray-500">
                         <span>Sets Found: <span id="score" class="font-bold">0</span></span>
                         <span>Cards Left: <span id="cardsLeft" class="font-bold">12</span></span>
                     </div>
-                </div>
+                </section>
                 
-                <div class="w-64 ml-6">
-                    <h3 class="text-lg font-semibold text-gray-700 mb-3">Found Sets:</h3>
-                    <div id="foundSets" class="space-y-2 max-h-60 overflow-y-auto">
+                <aside class="w-64 ml-6" aria-labelledby="found-sets-heading">
+                    <h2 id="found-sets-heading" class="text-lg font-semibold text-gray-700 mb-3">Found Sets:</h2>
+                    <div id="foundSets" class="space-y-2 max-h-60 overflow-y-auto" aria-live="polite">
                         <!-- Found sets will appear here -->
                     </div>
-                </div>
+                </aside>
             </div>
 
-            <div class="mb-6">
-                <h3 class="text-lg font-semibold text-gray-700 mb-3">Attributes Legend:</h3>
+            <section aria-labelledby="attributes-heading" class="mb-6">
+                <h2 id="attributes-heading" class="text-lg font-semibold text-gray-700 mb-3">Attributes Legend:</h2>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                     <div class="flex items-center space-x-2">
                         <span class="font-semibold">First Emoji:</span>
-                        <div class="text-xs">Gender + Hair Color + Arms</div>
+                        <div class="text-xs">Clothes + Hair Color + Arms</div>
                         <div class="flex space-x-1">
                             <span class="text-lg">🙇🏼‍♀️</span>
                             <span class="text-lg">🙋🏽</span>
@@ -89,12 +126,7 @@
                     </div>
                     <div class="flex items-center space-x-2">
                         <span class="font-semibold">Second Emoji:</span>
-                        <div class="text-xs">
-                            Style
-                            <br/><span>Girly Pop</span>
-                            <br/><span>Punk Rock</span>
-                            <br/><span>Science Nerd</span>
-                        </div>
+                        <div class="text-xs">Style</div>
                         <div class="flex space-x-1">
                             <span class="text-lg">💖</span>
                             <span class="text-lg">🎸</span>
@@ -105,15 +137,17 @@
                 <div class="mt-3 text-xs text-gray-600">
                     <div><strong>First Emoji breakdown:</strong></div>
                     <div>🙇 = Bowing (No Arms), 🙋 = Raising Hand (One Arm), 🤷 = Shrugging (Two Arms)</div>
-                    <div>Each can be Female (‍♀️), Non-Binary (none), or Male (‍♂️) with Blond (👱🏻‍♀️), Brown (👩🏽), or Black (🧑🏿‍🦱) hair</div>
+                    <div>Each can be wearing Purple, Grey, or Blue, with Blond (👱🏻‍♀️), Brown (👩🏽), or Black (🧑🏿‍🦱) hair</div>
                 </div>
-            </div>
+            </section>
 
-            <div id="gameBoard" class="grid grid-cols-3 md:grid-cols-4 gap-4 mb-6">
-                <!-- Cards will be generated here -->
-            </div>
+            <section aria-label="Game Board" class="mb-6">
+                <div id="gameBoard" class="grid grid-cols-3 md:grid-cols-4 gap-4" role="grid" aria-label="Game cards">
+                    <!-- Cards will be generated here -->
+                </div>
+            </section>
 
-            <div class="flex justify-center space-x-3">
+            <nav aria-label="Game Controls" class="flex justify-center space-x-3">
                 <button id="newGameBtn" class="bg-purple-500 hover:bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 transform hover:scale-105">
                     New Game
                 </button>
@@ -126,25 +160,30 @@
                 <button id="reshuffleBtn" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 transform hover:scale-105 hidden">
                     Reshuffle Cards
                 </button>
-            </div>
+            </nav>
         </div>
-    </div>
+    </main>
 
     <!-- Set Naming Modal -->
-    <div id="setNamingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">Great Set Found! 🎉</h2>
-            <p class="text-gray-600 mb-4">You found a valid set! Give these homies a group name:</p>
+    <div id="setNamingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 modal" role="document">
+            <h2 id="modal-title" class="text-2xl font-bold text-gray-800 mb-4">Great Set Found! 🎉</h2>
+            <p id="modal-description" class="text-gray-600 mb-4">You found a valid set! Give these homies a group name:</p>
             
             <div class="bg-gray-50 rounded-lg p-4 mb-6">
                 <h3 class="font-semibold text-gray-700 mb-3">Your Set:</h3>
-                <div id="setPreview" class="flex justify-center space-x-4">
+                <div id="setPreview" class="flex justify-center space-x-4" aria-live="polite">
                     <!-- Set preview will appear here -->
                 </div>
             </div>
             
-            <input type="text" id="groupNameInput" placeholder="Enter group name (e.g., 'The Rock Band')" 
-                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 mb-4">
+            <div class="mb-4">
+                <label for="groupNameInput" class="block text-sm font-medium text-gray-700 mb-2">Group Name:</label>
+                <input type="text" id="groupNameInput" placeholder="Enter group name (e.g., 'The Rock Band')" 
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" 
+                       aria-describedby="group-name-help">
+                <p id="group-name-help" class="sr-only">Enter a name for your group of homies</p>
+            </div>
             
             <div class="flex space-x-3">
                 <button id="confirmNameBtn" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
@@ -156,6 +195,12 @@
             </div>
         </div>
     </div>
+
+    <!-- Skip to main content link for keyboard users -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-500 text-white px-4 py-2 rounded">
+        Skip to main content
+    </a>
+    <div id="main-content" tabindex="-1"></div>
 
     <script>
         class HomiesGame {
@@ -171,6 +216,9 @@
                 
                 this.initializeGame();
                 this.bindEvents();
+                
+                // Announce game start to screen readers
+                this.announceToScreenReader("HOMIES game started. Use Tab to navigate cards, or use the Hint and Auto Find buttons.");
             }
 
             generateFullDeck81() {
@@ -265,18 +313,22 @@
                 const board = document.getElementById('gameBoard');
                 board.innerHTML = '';
                 
-                this.gameBoard.forEach(card => {
-                    const cardElement = this.createCardElement(card);
+                this.gameBoard.forEach((card, index) => {
+                    const cardElement = this.createCardElement(card, index);
                     board.appendChild(cardElement);
                 });
                 
                 this.updateCardsLeft();
             }
 
-            createCardElement(card) {
-                const cardDiv = document.createElement('div');
-                cardDiv.className = `card bg-white rounded-lg p-4 border-2 border-gray-200 text-center ${card.selected ? 'selected' : ''}`;
+            createCardElement(card, index) {
+                const cardDiv = document.createElement('article');
+                cardDiv.className = `card bg-white rounded-lg p-4 border-2 border-gray-200 text-center ${card.selected ? 'selected' : ''} focus:outline-none`;
                 cardDiv.setAttribute('data-id', card.id);
+                cardDiv.setAttribute('role', 'gridcell');
+                cardDiv.setAttribute('tabindex', '0');
+                cardDiv.setAttribute('aria-label', this.getCardAriaLabel(card));
+                cardDiv.setAttribute('aria-selected', card.selected);
                 
                 const styleColor = {
                     'girly': 'text-pink-500',
@@ -291,8 +343,28 @@
                     </div>
                 `;
                 
+                // Add both click and keyboard event listeners
                 cardDiv.addEventListener('click', () => this.selectCard(card.id));
+                cardDiv.addEventListener('keydown', (e) => this.handleCardKeyDown(e, card.id));
+                
                 return cardDiv;
+            }
+
+            handleCardKeyDown(event, cardId) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    this.selectCard(cardId);
+                }
+            }
+
+            getCardAriaLabel(card) {
+                const genderLabel = card.gender === 'female' ? 'Female' : 
+                                  card.gender === 'male' ? 'Male' : 'Non-binary';
+                const skinLabel = card.skin.charAt(0).toUpperCase() + card.skin.slice(1);
+                const armLabel = card.armType.charAt(0).toUpperCase() + card.armType.slice(1);
+                const styleLabel = card.style.charAt(0).toUpperCase() + card.style.slice(1);
+                
+                return `${genderLabel}, ${skinLabel} skin, ${armLabel} arms, ${styleLabel} style`;
             }
 
             getStyleEmoji(style) {
@@ -314,6 +386,7 @@
                     
                     const cardElement = document.querySelector(`[data-id="${cardId}"]`);
                     cardElement.classList.add('selected');
+                    cardElement.setAttribute('aria-selected', 'true');
                     
                     if (this.selectedCards.length === 3) {
                         setTimeout(() => this.checkSet(), 300);
@@ -370,6 +443,7 @@
                 this.selectedCards.forEach(card => {
                     const cardDiv = document.createElement('div');
                     cardDiv.className = 'text-center';
+                    cardDiv.setAttribute('aria-hidden', 'true');
                     cardDiv.innerHTML = `
                         <div class="text-4xl mb-1">${card.emoji}</div>
                         <div class="text-2xl ${card.style === 'girly' ? 'text-pink-500' : card.style === 'punk' ? 'text-red-600' : 'text-blue-600'}">${this.getStyleEmoji(card.style)}</div>
@@ -377,20 +451,49 @@
                     setPreview.appendChild(cardDiv);
                 });
                 
-                // Show modal
+                // Show modal and trap focus
                 modal.classList.remove('hidden');
                 document.getElementById('groupNameInput').value = '';
                 document.getElementById('groupNameInput').focus();
+                
+                // Trap focus within modal
+                this.trapFocus(modal);
+                
+                this.announceToScreenReader("Set found! Please name your group of homies.");
             }
 
             hideSetNamingModal() {
-                document.getElementById('setNamingModal').classList.add('hidden');
+                const modal = document.getElementById('setNamingModal');
+                modal.classList.add('hidden');
+                // Remove focus trap
+                document.removeEventListener('keydown', this.focusTrapHandler);
+            }
+
+            trapFocus(modal) {
+                this.focusTrapHandler = (e) => {
+                    if (e.key === 'Tab') {
+                        const focusableElements = modal.querySelectorAll('button, input, [tabindex]:not([tabindex="-1"])');
+                        const firstElement = focusableElements;
+                        const lastElement = focusableElements[focusableElements.length - 1];
+                        
+                        if (e.shiftKey && document.activeElement === firstElement) {
+                            e.preventDefault();
+                            lastElement.focus();
+                        } else if (!e.shiftKey && document.activeElement === lastElement) {
+                            e.preventDefault();
+                            firstElement.focus();
+                        }
+                    }
+                };
+                
+                document.addEventListener('keydown', this.focusTrapHandler);
             }
 
             confirmSetName() {
                 const groupName = document.getElementById('groupNameInput').value.trim();
                 if (!groupName) {
-                    alert('Please enter a group name!');
+                    this.announceToScreenReader("Please enter a group name.");
+                    document.getElementById('groupNameInput').focus();
                     return;
                 }
                 
@@ -400,6 +503,8 @@
                     name: groupName,
                     timestamp: new Date()
                 });
+                
+                this.announceToScreenReader(`Set named: ${groupName}`);
                 
                 // Track used cards
                 this.selectedCards.forEach(card => {
@@ -439,11 +544,14 @@
                     cardElement.classList.add('wrong');
                 });
                 
+                this.announceToScreenReader("Not a valid set. Please try again.");
+                
                 setTimeout(() => {
                     this.selectedCards.forEach(card => {
                         card.selected = false;
                         const cardElement = document.querySelector(`[data-id="${card.id}"]`);
                         cardElement.classList.remove('selected', 'wrong');
+                        cardElement.setAttribute('aria-selected', 'false');
                     });
                     this.selectedCards = [];
                     this.updateStatus();
@@ -477,9 +585,10 @@
                 this.setsFound.forEach((foundSet, index) => {
                     const setDiv = document.createElement('div');
                     setDiv.className = 'found-set bg-purple-50 rounded-lg p-3 border border-purple-200';
+                    setDiv.setAttribute('role', 'listitem');
                     
                     const cardsHtml = foundSet.cards.map(card => `
-                        <div class="inline-block mx-1">
+                        <div class="inline-block mx-1" aria-hidden="true">
                             <div class="text-2xl">${card.emoji}</div>
                             <div class="text-lg ${card.style === 'girly' ? 'text-pink-500' : card.style === 'punk' ? 'text-red-600' : 'text-blue-600'}">${this.getStyleEmoji(card.style)}</div>
                         </div>
@@ -497,7 +606,7 @@
             giveHint() {
                 const availableSets = this.findAvailableSets();
                 if (availableSets.length > 0) {
-                    const hintSet = availableSets[0];
+                    const hintSet = availableSets;
                     hintSet.forEach(card => {
                         const cardElement = document.querySelector(`[data-id="${card.id}"]`);
                         cardElement.style.border = '3px solid #fbbf24';
@@ -507,26 +616,30 @@
                     });
                     document.getElementById('status').textContent = 'Hint: Look for the highlighted cards!';
                     document.getElementById('status').style.color = '#f59e0b';
+                    this.announceToScreenReader("Hint: Look for highlighted cards that form a set.");
                 } else {
                     this.showReshuffleBtn();
                     document.getElementById('status').textContent = 'No sets available!';
                     document.getElementById('status').style.color = '#ef4444';
+                    this.announceToScreenReader("No sets available. Use Reshuffle button to get new cards.");
                 }
             }
 
             autoFindSet() {
                 const availableSets = this.findAvailableSets();
                 if (availableSets.length > 0) {
-                    const foundSet = availableSets[0];
+                    const foundSet = availableSets;
                     foundSet.forEach(card => {
                         this.selectCard(card.id);
                     });
                     document.getElementById('status').textContent = 'Auto-found a valid set!';
                     document.getElementById('status').style.color = '#10b981';
+                    this.announceToScreenReader("Auto-found a valid set! Please name your group.");
                 } else {
                     this.showReshuffleBtn();
                     document.getElementById('status').textContent = 'No sets available!';
                     document.getElementById('status').style.color = '#ef4444';
+                    this.announceToScreenReader("No sets available. Use Reshuffle button to get new cards.");
                 }
             }
 
@@ -566,6 +679,7 @@
                     document.getElementById('status').textContent = 'New cards dealt! Find sets of 3 cards.';
                     document.getElementById('status').style.color = '#374151';
                     this.hideReshuffleBtn();
+                    this.announceToScreenReader("Cards reshuffled. New game board loaded.");
                 }, 1000);
             }
 
@@ -578,6 +692,7 @@
                 document.getElementById('status').textContent = 'New game started! Find sets of 3 cards.';
                 document.getElementById('status').style.color = '#374151';
                 this.hideReshuffleBtn();
+                this.announceToScreenReader("New game started! Fresh deck of cards.");
             }
 
             findAvailableSets() {
@@ -597,6 +712,18 @@
                 return sets;
             }
 
+            announceToScreenReader(message) {
+                const announcement = document.createElement('div');
+                announcement.setAttribute('role', 'status');
+                announcement.setAttribute('aria-live', 'polite');
+                announcement.className = 'sr-only';
+                announcement.textContent = message;
+                document.body.appendChild(announcement);
+                setTimeout(() => {
+                    document.body.removeChild(announcement);
+                }, 1000);
+            }
+
             bindEvents() {
                 document.getElementById('newGameBtn').addEventListener('click', () => this.newGame());
                 document.getElementById('hintBtn').addEventListener('click', () => this.giveHint());
@@ -610,6 +737,20 @@
                 document.getElementById('groupNameInput').addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
                         this.confirmSetName();
+                    }
+                });
+
+                // Close modal on Escape key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.hideSetNamingModal();
+                    }
+                });
+
+                // Close modal on outside click
+                document.getElementById('setNamingModal').addEventListener('click', (e) => {
+                    if (e.target.id === 'setNamingModal') {
+                        this.hideSetNamingModal();
                     }
                 });
             }
